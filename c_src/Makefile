@@ -35,6 +35,9 @@ $(LIB_DIR)/libjs.a: $(LIB_DIR)/libnspr4.a
 
 $(LIB_DIR)/libnspr4.a:
 	$(GUNZIP) -c nsprpub-$(NSPR_VER).tar.gz | $(TAR) xf -
+	@for I in patches/nspr-*.patch; do \
+		(patch -p1 < $${I} || echo "Skipping patch"); \
+	done
 	(cd $(NSPR_DIR) && \
 	 ./configure --disable-debug --enable-optimize \
                      --prefix=$(SYSTEM_DIR) $(NSPR_SIXTYFOUR) && \
